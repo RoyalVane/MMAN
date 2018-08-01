@@ -42,3 +42,5 @@ test/data/legacy_serialized.pt
 pretrained_models/*
 checkpoints/*
 *.tar
+*/*.pth
+*/**/.pth

@@ -1,16 +1,12 @@
-import numpy as np
 import torch
-import os
 import random
 import torch.nn as nn
-from torchvision import models
 from collections import OrderedDict
 from torch.autograd import Variable
 import util.util as util
 from util.image_pool import ImagePool
 from .base_model import BaseModel
 from . import networks
-from . import pose_generator
 
 def swap(T, m, n): #Distinguish left & right
     A = T.data.cpu().numpy()
@@ -46,18 +42,6 @@ class Pix2PixModel(BaseModel):
         self.input_B_Attribute_L1 = self.LongTensor(opt.batchSize, 
                                     int(opt.fineSize/16), int(opt.fineSize/16))
         
-#        self.input_pose = self.Tensor(opt.batchSize, 19,
-#                                    int(opt.fineSize/16), int(opt.fineSize/16))
-        
-        #G2
-# =============================================================================
-#         self.input_A_pose = self.Tensor(opt.batchSize, (opt.output_nc - 1) * 2, opt.fineSize, opt.fineSize)
-#         
-#         self.input_B_label = self.Tensor(opt.batchSize, opt.output_nc - 1, 1, 1)
-#         
-#         self.input_B_pose = self.Tensor(opt.batchSize, 1, opt.fineSize, opt.fineSize)
-# =============================================================================
-        
         #define hook
         self.hook = networks.UnetHook()
         
@@ -65,16 +49,8 @@ class Pix2PixModel(BaseModel):
         self.netG = networks.define_G(opt.input_nc, opt.output_nc, opt.ngf,
                                           opt.which_model_netG, self.hook, opt.fineSize, opt.norm, not opt.no_dropout, opt.init_type, self.gpu_ids)
         
-        
         if self.isTrain:
             use_sigmoid = opt.no_lsgan
-# =============================================================================
-#             self.netG2 = networks.define_G((opt.output_nc - 1) * 2, 1, opt.ngf,
-#                                               'pose', None, opt.fineSize, opt.norm, not opt.no_dropout, opt.init_type, self.gpu_ids)
-# 
-# =============================================================================
-            #self.netG2 = pose_generator.construct_pose_model('./pretrained_models/coco_pose_iter_440000.pth.tar')
-            #self.netG2 = pose_generator.construct_pose_model('/home/yawei/PedestrianParsing/Realtime_Multi-Person_Pose_Estimation-master/training/openpose_coco_best.pth.tar')
             
             self.netD = networks.define_D(opt.input_nc + opt.output_nc, opt.ndf,
                                               opt.which_model_netD,
@@ -87,11 +63,9 @@ class Pix2PixModel(BaseModel):
         if not self.isTrain or opt.continue_train:
             self.load_network(self.netG, 'G', opt.which_epoch)
             if self.isTrain:
-                #self.load_network(self.netG2, 'G2', opt.which_epoch)
                 self.load_network(self.netD, 'D', opt.which_epoch)
                 self.load_network(self.netD2, 'D2', opt.which_epoch)
                     
-
         if self.isTrain:
             self.fake_AB_pool = ImagePool(opt.pool_size)
             self.old_lr = opt.lr
@@ -135,7 +109,6 @@ class Pix2PixModel(BaseModel):
             self.optimizer_D2 = torch.optim.Adam(self.netD2.parameters(),
                                                 lr=opt.lr, betas=(opt.beta1, 0.999), weight_decay = 1e-4)
             
-            
             self.optimizers.append(self.optimizer_G)
             self.optimizers.append(self.optimizer_D)
             self.optimizers.append(self.optimizer_D2)
@@ -170,14 +143,6 @@ class Pix2PixModel(BaseModel):
         input_B_L1 = input['B_L1']
         input_B_Attribute_L1 = input['B_Attribute_L1']
         input_B_Attribute_GAN = input['B_Attribute_GAN']
-        #pose_dic = pose_generator.process(self.netG2, input_A, 16)
-        #input_pose = pose_dic['pose_map']
-        
-        
-        #G2
-#        input_A_pose = input['A_pose']
-#        input_B_label = input['B_label']
-#        input_B_pose = input['B_pose']
         
         #G1
         self.input_A.resize_(input_A.size()).copy_(input_A)
@@ -189,13 +154,7 @@ class Pix2PixModel(BaseModel):
         self.input_B_L1.resize_(input_B_L1.size()).copy_(input_B_L1)
         self.input_B_Attribute_GAN.resize_(input_B_Attribute_GAN.size()).copy_(input_B_Attribute_GAN)
         self.input_B_Attribute_L1.resize_(input_B_Attribute_L1.size()).copy_(input_B_Attribute_L1)
-        #self.input_pose.resize_(input_pose.size()).copy_(input_pose)
-        #self.pose_num = pose_dic['total_points']
         
-        #G2
-#        self.input_A_pose.resize_(input_A_pose.size()).copy_(input_A_pose)
-#        self.input_B_label.resize_(input_B_label.size()).copy_(input_B_label)
-#        self.input_B_pose.resize_(input_B_pose.size()).copy_(input_B_pose)
         
     def forward(self):
         self.real_A = Variable(self.input_A)
@@ -206,36 +165,14 @@ class Pix2PixModel(BaseModel):
         self.real_B_L1 = Variable(self.input_B_L1) #single-channel target for label map
         self.real_B_Attribute_GAN = Variable(self.input_B_Attribute_GAN) #multi-channel target for thumbnail
         self.real_B_Attribute_L1 = Variable(self.input_B_Attribute_L1) # single-channel target for thumbnail
-        #self.real_B_pose = Variable(self.input_B_pose)
-        
+
         #Generate from networks
         self.fake_B_GAN = self.netG(self.real_A)['GAN'] #multi-channel label map--> target real_B_GAN
         self.fake_B_L1 = self.netG(self.real_A)['L1'] #multi-channel label map but nagtive --> target real_B_L1
         self.fake_B_Attribute_GAN = self.hook.get_value()['GAN'] #multi-channel thumbnail --> real_B_Attribute_GAN
         self.fake_B_Attribute_L1 = self.hook.get_value()['L1'] #multi-channel thumbnail but nagtive --> real_B_Attribute_L1
         
-        #self.fake_B_pose = self.netG2(self.real_A_pose)
-        
-        #Generate from Both network
-# =============================================================================
-#         u = self.input_B_label.max(1)[1]
-#         real_slice = torch.FloatTensor(1, 1, self.opt.fineSize, self.opt.fineSize)
-#         pose_slice = torch.FloatTensor(1, 1, self.opt.fineSize, self.opt.fineSize)
-#         fake_slice = torch.FloatTensor(1, 1, self.opt.fineSize, self.opt.fineSize)
-#         change_slice = torch.FloatTensor(1, 1, self.opt.fineSize, self.opt.fineSize)
-#         pose_target = torch.FloatTensor(1, self.opt.output_nc, self.opt.fineSize, self.opt.fineSize)
-#         real_slice.copy_(self.real_B_GAN.data[:, u[0] + 1, :, :])
-#         pose_slice.copy_(self.fake_B_pose.data.ge(0.1))
-#         fake_slice.copy_(self.fake_B_GAN.data[:, u[0] + 1, :, :])
-#         pose_target.copy_(self.fake_B_GAN.data)
-#         and_slice = torch.clamp(torch.add(real_slice, 1,  pose_slice), max = 1.0)
-#         torch.addcmul(change_slice, 1, and_slice, fake_slice)
-#         pose_target[:, u[0] + 1, :, :].copy_(change_slice)
-#         self.pose_target = Variable(pose_target).cuda()
-# =============================================================================
-        
-        
-    # no backprop gradients
+
     def test(self):
         self.real_A = Variable(self.input_A, volatile=True)
         self.real_A_S = Variable(self.input_A_S, volatile=True)
@@ -340,35 +277,11 @@ class Pix2PixModel(BaseModel):
         #Attribute L1 loss: Minimize logSoftmax concats NLL2d between thumbnail
         self.loss_G_L1_Attribute = self.criterionAttributeL1(self.fake_B_Attribute_L1, self.real_B_Attribute_L1) * self.opt.lambda_A
         
-        #Total loss
-# =============================================================================
-#         self.loss_G = min(self.epoch/20.0, 5.0) * self.loss_G_L1 + 1.0 * self.loss_G_L1_Attribute +  \
-#             min(self.epoch//50, 0.0) * self.loss_G_GAN + min(self.epoch//50, 1.0) * self.loss_G_GAN_Attribute #for LIP
-# =============================================================================
-        
         self.loss_G = 5.0 * self.loss_G_L1 + 1.0 * self.loss_G_L1_Attribute +  \
            1 * self.loss_G_GAN + 1 * self.loss_G_GAN_Attribute #for LIP
             
-# =============================================================================
-#         self.loss_G = 5 * self.loss_G_L1 + 1.0 * self.loss_G_L1_Attribute
-# =============================================================================
-            
-# =============================================================================
-#         self.loss_G = min(self.epoch/2.0, 5.0) * self.loss_G_L1 + 1.0 * self.loss_G_L1_Attribute +  \
-#             1.0 * self.loss_G_GAN + 1.0 * self.loss_G_GAN_Attribute #for Pascal
-# =============================================================================
-            
         self.loss_G.backward()
         
-# =============================================================================
-#     def backward_G2(self):
-#         fake_AB_pose = torch.cat((self.real_A_pose, self.fake_B_pose), 1)
-#         pred_fake_pose = self.netD2(fake_AB_pose)
-#         self.loss_G_pose_GAN = self.criterionGAN2(pred_fake_pose, True)
-#         self.loss_G_pose_L1 = self.criterionL1_pose(self.fake_B_pose, self.real_B_pose)
-#         self.loss_G_pose = self.loss_G_pose_GAN + 0.75 * self.loss_G_pose_L1
-#         self.loss_G_pose.backward()
-# =============================================================================
         
     def optimize_parameters(self):
         self.forward()
@@ -378,20 +291,16 @@ class Pix2PixModel(BaseModel):
         self.optimizer_D2.zero_grad()
         self.backward_D2()
         
-        if self.epoch > -1: #for Pascal
-        #if self.epoch > 48: #for LIP
-            if random.random() < 0.1:
-                self.optimizer_D.step()
-                self.optimizer_D2.step()
+        if random.random() < 0.1:
+            self.optimizer_D.step()
+            self.optimizer_D2.step()
             
         self.optimizer_G.zero_grad()
         self.backward_G()
         self.optimizer_G.step()
         
     
-
     def get_current_errors(self):
-
         return OrderedDict([('G_GAN', self.loss_G_GAN.data[0]),
                             ('G_L1', self.loss_G_L1.data[0]),
                             ('D_real', self.loss_D_real.data[0]),
@@ -406,10 +315,6 @@ class Pix2PixModel(BaseModel):
         real_A = util.tensor2im(self.real_A.data)
         fake_B = util.ndim_tensor2im(self.fake_B_GAN.data, dataset = self.opt.dataset)
         real_B = util.ndim_tensor2im(self.real_B_GAN.data, dataset = self.opt.dataset)
-        #pose = util.ndim_tensor2im(self.real_pose.data, dataset = self.opt.dataset)
-        #real_A_pose = util.ndim_tensor2im(self.real_A_pose.data[:, 0:self.opt.output_nc - 1, :, :], dataset = self.opt.dataset, dim = 'pose')
-        #fake_B_pose = util.onedim_tensor2im(self.fake_B_pose.data, self.input_B_label.max(1)[1], dataset = self.opt.dataset)
-        #real_B_pose = util.onedim_tensor2im(self.real_B_pose.data, self.input_B_label.max(1)[1], dataset = self.opt.dataset)
         return OrderedDict([('real_A', real_A), ('fake_B', fake_B), ('real_B', real_B)])
 
     def save(self, label):
