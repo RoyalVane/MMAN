@@ -115,4 +115,5 @@ If you find MMAN useful in your research, please consider citing:
 
 ## Related Repos
 1. [Pedestrian Alignment Network](https://github.com/layumi/Pedestrian_Alignment)
+2. [pix2pix](https://github.com/phillipi/pix2pix)
 
