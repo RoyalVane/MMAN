@@ -19,15 +19,6 @@ def channel_1toN(img, num_channel):
         T[i] = T[i] + i
         layer = T[i] - img
         T[i] = torch.from_numpy(np.logical_not(np.logical_xor(layer.numpy(), mask.numpy())).astype(int))
-    
-# =============================================================================
-#     T = T.float()+N
-#     
-#     S = T.sum(0)
-#     for i in range(num_channel):
-#         T[i] = torch.div(T[i],S)
-# =============================================================================
-    
     return T.float()
 
 def channel_1to1(img):
@@ -120,14 +111,9 @@ class AlignedDataset(BaseDataset):
         A_L = A.resize((int(self.opt.loadSize * 1.25), int(self.opt.loadSize * 1.25)), Image.LANCZOS)
         A_attribute = A.resize((int(self.opt.fineSize/16) , int(self.opt.fineSize/16)), Image.LANCZOS)
         
-        #A = A.resize((int(self.opt.loadSize * (A.width/A.height)/16)*16, self.opt.loadSize), Image.LANCZOS) if A.width > A.height \
-        #else A.resize((self.opt.loadSize , int(self.opt.loadSize  * (A.height/A.width)/16)*16), Image.LANCZOS)
-        
         B_path = self.B_paths[index]
         B = Image.open(B_path)
         B = B.resize((self.opt.loadSize , self.opt.loadSize), Image.NEAREST)
-        #B = B.resize((int(self.opt.loadSize * (B.width/B.height)/16)*16, self.opt.loadSize), Image.NEAREST) if B.width > B.height \
-        #else B.resize((self.opt.loadSize , int(self.opt.loadSize  * (B.height/B.width)/16)*16), Image.NEAREST)
         
         if self.opt.loadSize > self.opt.fineSize:
             if random.random() < 0.4:
@@ -205,30 +191,6 @@ class AlignedDataset(BaseDataset):
                 B_L1 = swap_1(B_L1, 16, 17)
                 B_L1 = swap_1(B_L1, 18, 19)
                 
-        
-        #construct missing part image
-# =============================================================================
-#         B_label = get_label(B_single, self.opt.output_nc)        
-#         A_pose = torch.FloatTensor(B.size(0) - 1, B.size(1), B.size(2))
-#         A_pose.copy_(B[1:, :, :])
-#         for attempt in range (0, 10000):
-#             u = random.randint(0, self.opt.output_nc - 2)
-#             if B_label[u] == 1:
-#                 A_pose[u, :, :].copy_(torch.FloatTensor(A_pose[u, :, :].size()).fill_(0))
-#                 A_pose = torch.cat((A_pose, torch.zeros(A_pose.size(0), A_pose.size(1), A_pose.size(2))))
-#                 A_pose[self.opt.output_nc - 1 + u, :, :].copy_(torch.FloatTensor(A_pose[self.opt.output_nc - 1 + u, :, :].size()).fill_(1))
-#                 B_label.copy_(torch.FloatTensor(B_label.size()).fill_(0))
-#                 B_label[u] = 1
-#                 break
-#             if attempt == 9999:
-#                 A_pose = torch.cat((A_pose, torch.zeros(A_pose.size(0), A_pose.size(1), A_pose.size(2))))
-#         B_pose = torch.FloatTensor(1, B.size(1), B.size(2))
-#         B_pose.copy_(B[1+u, :, :])
-#
-#            
-#        return {'A': A, 'A_S': A_S, 'A_L': A_L, 'A_pose': A_pose, 'B_pose' : B_pose, 'B_GAN': B, 'B_L1': B_single, 'B_Attribute': B_attribute, 'B_label': B_label, 
-#               'A_paths': A_path, 'B_paths': B_path}
-# =============================================================================
         return {'A': A, 'A_S': A_S, 'A_L': A_L, 'B_L1': B_L1, 'B_GAN': B, 
                 'A_Attribute': A_attribute, 
                 'B_Attribute_L1': B_attribute_L1, 
