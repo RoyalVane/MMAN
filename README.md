@@ -31,7 +31,7 @@ The folder is structured as follows:
 │   ├── ...			/* Other dirs & files 			*/
 └── Human/
     ├── train_LIP_A/		/* Training set: RGB images		*/
-    ├── train_LIP_B/		/* Training set: GT  labels		*/
+    ├── train_LIP_B/		/* Training set: GT labels		*/
     ├── test_LIP_A/		/* Testing set: RGB images		*/
     └── test_LIP_B/		/* Testing set: GT labels		*/
 ```
