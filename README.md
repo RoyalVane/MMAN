@@ -1,6 +1,6 @@
 
 ## MMAN
-The code for "Macro-Micro Adversarial Network for Human Parsing" in ECCV2018
+This is the code for "Macro-Micro Adversarial Network for Human Parsing" in ECCV2018.
 
 Paper link: https://arxiv.org/abs/1807.08260
 
