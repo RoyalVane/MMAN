@@ -104,8 +104,8 @@ If you find MMAN useful in your research, please consider citing:
 	author={Luo, Yawei and 
 		Zheng, Zhedong and 
 		Zheng, Liang and 
-		Guan Tao and 
-		Yu Junqing and 
+		Guan, Tao and 
+		Yu, Junqing and 
 		Yang, Yi},
 	booktitle ={ECCV},
 	year={2018}
