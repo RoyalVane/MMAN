@@ -90,7 +90,7 @@ python test.py --dataroot ../Human --dataset LIP --name Exp_0 --gpu_ids 0 --whic
 
 ## Qualitative results
 ### Trained on ``LIP train_set`` -> Tested on ``LIP val_set``
-![] (https://github.com/RoyalVane/MMAN/tree/master/PDFs/LIP.pdf)
+[123](https://github.com/RoyalVane/MMAN/blob/master/PDFs/Market1501.pdf)
 
 ### Trained on ``LIP train_set`` -> Tested on ``Market1501``
 ![] (https://github.com/RoyalVane/MMAN/tree/master/PDFs/Market1501.pdf)
