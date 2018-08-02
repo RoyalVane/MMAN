@@ -24,12 +24,12 @@ Download 	[The LIP Dataset]	( https://drive.google.com/open?id=1SlvucF37ApWCQjmd
 
 The folder is structured as follows:
 ```
-├── MMAN
+├── MMAN/
 │   ├── data/                 	/* Files for data processing  		*/
 │   ├── model/                 	/* Files for model    			*/
 │   ├── options/          	/* Files for options    		*/
 │   ├── ...			/* Other dirs & files 			*/
-└── Human
+└── Human/
     ├── train_LIP_A/		/* Training set: RGB images		*/
     ├── train_LIP_B/		/* Training set: GT  labels		*/
     ├── test_LIP_A/		/* Testing set: RGB images		*/
