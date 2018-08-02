@@ -96,8 +96,7 @@ Trained on ``LIP train_set`` -> Tested on ``Market1501``
 ![](https://github.com/RoyalVane/MMAN/blob/master/jpg/Market1501.JPG)
 
 ## Citation
-
-You may cite them in your paper.
+If you find MMAN useful in your research, please consider citing:
 ```
 @inproceedings{luo2018macro,
 	title={Macro-Micro Adversarial Network for Human Parsing},
