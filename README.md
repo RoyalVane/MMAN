@@ -59,9 +59,9 @@ python train.py --dataroot ../Human --dataset LIP --name Exp_0 --output_nc 20 --
 
 `--pre_trained` Using ResNet101 model pretrained on Imagenet.
 
-`--loadSize` Resize training images into 286*286.
+`--loadSize` Resize training images into 286 * 286.
 
-`--fineSize` Randomly crop 256*256 patch from a 286*286 image.
+`--fineSize` Randomly crop 256 * 256 patch from a 286 * 286 image.
 
 Enjoy the training process in http://XXX.XXX.XXX.XXX:8097/ , where XXX is your server IP address.
 
@@ -85,7 +85,7 @@ python test.py --dataroot ../Human --dataset LIP --name Exp_0 --gpu_ids 0 --whic
 
 `--output_nc` The number of classes. For LIP, it equals to 20. 
 
-`--loadSize` Resize testing images into 286*286.
+`--loadSize` Resize testing images into 286 * 286.
 
 
 ## Qualitative results
