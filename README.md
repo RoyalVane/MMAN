@@ -3,6 +3,7 @@
 The code for "Macro-Micro Adversarial Network for Human Parsing" in ECCV2018
 
 Paper link: https://arxiv.org/abs/1807.08260
+
 By Yawei Luo, Zhedong Zheng, Liang Zheng, Tao Guan, Junqing Yu and Yi Yang.
 
 The proposed framework is capable of producing competitive parsing performance compared with the state-of-the-art methods, i.e., mIoU=46.81% and 59.91% on LIP and
@@ -18,30 +19,31 @@ PASCAL-Person-Part, respectively. On a relatively small dataset PPSS, our pre-tr
 
 ## Getting started
 Clone 		[MMAN source code]	( git@github.com:RoyalVane/MMAN.git )
+
 Download 	[The LIP Dataset]	( https://drive.google.com/open?id=1SlvucF37ApWCQjmdCYQ8i9yoUHNvFMiC )
 
 The folder is structured as follows:
 ```
 ├── MMAN
-│   ├── data/                 	/* Files for data processing  	*/
+│   ├── data/                 	/* Files for data processing  		*/
 │   ├── model/                 	/* Files for model    			*/
-│   ├── options/          		/* Files for options    		*/
-│	├── ...						/* Other dirs & files 			*/
+│   ├── options/          	/* Files for options    		*/
+│   ├── ...			/* Other dirs & files 			*/
 └── Human
-    ├── train_LIP_A/			/* Training set: RGB images		*/
-	├── train_LIP_B/			/* Training set: GT	labels		*/
-	├── test_LIP_A/				/* Testing set: RGB images		*/
-	└── test_LIP_B/				/* Testing set: GT labels		*/
+    ├── train_LIP_A/		/* Training set: RGB images		*/
+    ├── train_LIP_B/		/* Training set: GT  labels		*/
+    ├── test_LIP_A/		/* Testing set: RGB images		*/
+    └── test_LIP_B/		/* Testing set: GT labels		*/
 ```
 
 
 ## Train
-Open a visdom server by
+### Open a visdom server
 ```bash
 python -m visdom.server
 ```
 
-Train a model by
+### Train a model
 ```bash
 python train.py --dataroot ../Human --dataset LIP --name Exp_0 --output_nc 20 --gpu_ids 0 --pre_trained --loadSize 286 --fineSize 256
 ```
@@ -65,7 +67,7 @@ Enjoy the training process in http://XXX.XXX.XXX.XXX:8097/ , where XXX is your s
 
 
 ## Test
-Use trained model to parse human images by
+### Use trained model to parse human images
 ```bash
 python test.py --dataroot ../Human --dataset LIP --name Exp_0 --gpu_ids 0 --which_epoch 30 --how_many 10000 --output_nc 20 --loadSize 286
 ```
@@ -86,25 +88,25 @@ python test.py --dataroot ../Human --dataset LIP --name Exp_0 --gpu_ids 0 --whic
 `--loadSize` Resize testing images into 286*286.
 
 
-##Qualitative results
+## Qualitative results
 ### Trained on ``LIP train_set`` -> Tested on ``LIP val_set``
-![](https://github.com/RoyalVane/MMAN/tree/master/PDFs/LIP.pdf)
+![] (https://github.com/RoyalVane/MMAN/tree/master/PDFs/LIP.pdf)
 
 ### Trained on ``LIP train_set`` -> Tested on ``Market1501``
-![](https://github.com/RoyalVane/MMAN/tree/master/PDFs/Market1501.pdf)
+![] (https://github.com/RoyalVane/MMAN/tree/master/PDFs/Market1501.pdf)
 
 ## Citation
 
-As far as I know, the following papers may be the first two to use the bottleneck baseline. You may cite them in your paper.
+You may cite them in your paper.
 ```
 @inproceedings{luo2018macro,
 	title={Macro-Micro Adversarial Network for Human Parsing},
 	author={Luo, Yawei and 
-			Zheng, Zhedong and 
-			Zheng, Liang and 
-			Guan Tao and 
-			Yu Junqing and 
-			Yang, Yi},
+		Zheng, Zhedong and 
+		Zheng, Liang and 
+		Guan Tao and 
+		Yu Junqing and 
+		Yang, Yi},
 	booktitle ={ECCV},
 	year={2018}
 }
