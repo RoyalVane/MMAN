@@ -1,5 +1,5 @@
 
-## Macro-Micro Adversarial Network for Human Parsing
+## MMAN
 The code for "Macro-Micro Adversarial Network for Human Parsing" in ECCV2018
 
 Paper link: https://arxiv.org/abs/1807.08260
@@ -89,11 +89,11 @@ python test.py --dataroot ../Human --dataset LIP --name Exp_0 --gpu_ids 0 --whic
 
 
 ## Qualitative results
-### Trained on ``LIP train_set`` -> Tested on ``LIP val_set``
-[123](https://github.com/RoyalVane/MMAN/blob/master/PDFs/Market1501.pdf)
+Trained on ``LIP train_set`` -> Tested on ``LIP val_set``
+![](https://github.com/RoyalVane/MMAN/blob/master/jpg/LIP.JPG)
 
-### Trained on ``LIP train_set`` -> Tested on ``Market1501``
-![] (https://github.com/RoyalVane/MMAN/tree/master/PDFs/Market1501.pdf)
+Trained on ``LIP train_set`` -> Tested on ``Market1501``
+![](https://github.com/RoyalVane/MMAN/blob/master/jpg/Market1501.JPG)
 
 ## Citation
 
