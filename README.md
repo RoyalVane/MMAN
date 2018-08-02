@@ -4,7 +4,8 @@ The code for "Macro-Micro Adversarial Network for Human Parsing" in ECCV2018
 
 Paper link: https://arxiv.org/abs/1807.08260
 
-By Yawei Luo, Zhedong Zheng, Liang Zheng, Tao Guan, Junqing Yu and Yi Yang.
+By Yawei Luo, Zhedong Zheng, Liang Zheng, Tao Guan, Junqing Yu<sup>*</sup> and Yi Yang. 
+###### <sup>*</sup> Corresponding Author: <yjqing@hust.edu.cn>
 
 The proposed framework is capable of producing competitive parsing performance compared with the state-of-the-art methods, i.e., mIoU=46.81% and 59.91% on LIP and
 PASCAL-Person-Part, respectively. On a relatively small dataset PPSS, our pre-trained model demonstrates impressive generalization ability.
