@@ -1,6 +1,7 @@
 
 ## Macro-Micro Adversarial Network for Human Parsing
 The code for "Macro-Micro Adversarial Network for Human Parsing" in ECCV2018
+
 Paper link: https://arxiv.org/abs/1807.08260
 By Yawei Luo, Zhedong Zheng, Liang Zheng, Tao Guan, Junqing Yu and Yi Yang.
 
