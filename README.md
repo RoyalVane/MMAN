@@ -14,7 +14,7 @@ PASCAL-Person-Part, respectively. On a relatively small dataset PPSS, our pre-tr
 ## Prerequisites
 - Python 3.6
 - GPU Memory >= 4G
-- Pytorch 0.3+
+- Pytorch 0.3.1
 - Visdom
 
 
