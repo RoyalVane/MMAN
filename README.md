@@ -70,7 +70,7 @@ Enjoy the training process in http://XXX.XXX.XXX.XXX:8097/ , where XXX is your s
 ## Test
 ### Use trained model to parse human images
 ```bash
-python test.py --dataroot ../Human --dataset LIP --name Exp_0 --gpu_ids 0 --which_epoch 30 --how_many 10000 --output_nc 20 --loadSize 286
+python test.py --dataroot ../Human --dataset LIP --name Exp_0 --gpu_ids 0 --which_epoch 30 --how_many 10000 --output_nc 20 --loadSize 256
 ```
 `--dataroot` The root of the testing set.
 
