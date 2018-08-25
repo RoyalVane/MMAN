@@ -86,7 +86,7 @@ python test.py --dataroot ../Human --dataset LIP --name Exp_0 --gpu_ids 0 --whic
 
 `--output_nc` The number of classes. For LIP, it equals to 20. 
 
-`--loadSize` Resize testing images into 286 * 286.
+`--loadSize` Resize testing images into 256 * 256.
 
 
 ## Qualitative results
