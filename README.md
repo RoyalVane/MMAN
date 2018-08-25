@@ -88,6 +88,8 @@ python test.py --dataroot ../Human --dataset LIP --name Exp_0 --gpu_ids 0 --whic
 
 `--loadSize` Resize testing images into 256 * 256.
 
+### New! Pretrained models are available via this link:
+[Pretrained models](https://drive.google.com/open?id=1pLFXIf8o3Jpq-w4_D4l8yWE9Q-1-TVLh)
 
 ## Qualitative results
 Trained on ``LIP train_set`` -> Tested on ``LIP val_set``
