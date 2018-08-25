@@ -21,7 +21,7 @@ PASCAL-Person-Part, respectively. On a relatively small dataset PPSS, our pre-tr
 ## Getting started
 Clone 		[MMAN source code]	( git@github.com:RoyalVane/MMAN.git )
 
-Download 	[The LIP Dataset]	( https://drive.google.com/open?id=1SlvucF37ApWCQjmdCYQ8i9yoUHNvFMiC )
+Download 	[The LIP Dataset]	[Google Drive]( https://drive.google.com/open?id=1SlvucF37ApWCQjmdCYQ8i9yoUHNvFMiC )
 
 The folder is structured as follows:
 ```
@@ -89,7 +89,7 @@ python test.py --dataroot ../Human --dataset LIP --name Exp_0 --gpu_ids 0 --whic
 `--loadSize` Resize testing images into 256 * 256.
 
 ### New! Pretrained models are available via this link:
-[Pretrained models](https://drive.google.com/open?id=1pLFXIf8o3Jpq-w4_D4l8yWE9Q-1-TVLh)
+[Google Drive](https://drive.google.com/open?id=1pLFXIf8o3Jpq-w4_D4l8yWE9Q-1-TVLh)
 
 ## Qualitative results
 Trained on ``LIP train_set`` -> Tested on ``LIP val_set``
