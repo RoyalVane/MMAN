@@ -1,8 +1,6 @@
 
 ## MMAN
-This is the code for "Macro-Micro Adversarial Network for Human Parsing" in ECCV2018.
-
-Paper link: https://arxiv.org/abs/1807.08260
+This is the code for "Macro-Micro Adversarial Network for Human Parsing" in ECCV2018. [Paper link](https://arxiv.org/abs/1807.08260)
 
 By Yawei Luo, Zhedong Zheng, Liang Zheng, Tao Guan, Junqing Yu<sup>*</sup> and Yi Yang. 
 ###### <sup>*</sup> Corresponding Author: <yjqing@hust.edu.cn>
@@ -19,9 +17,9 @@ PASCAL-Person-Part, respectively. On a relatively small dataset PPSS, our pre-tr
 
 
 ## Getting started
-Clone 		[MMAN source code]	( git@github.com:RoyalVane/MMAN.git )
+Clone MMAN source code
 
-Download 	[The LIP Dataset]	[Google Drive]( https://drive.google.com/open?id=1SlvucF37ApWCQjmdCYQ8i9yoUHNvFMiC )
+Download [The LIP Dataset]( https://drive.google.com/open?id=1SlvucF37ApWCQjmdCYQ8i9yoUHNvFMiC )
 
 The folder is structured as follows:
 ```
